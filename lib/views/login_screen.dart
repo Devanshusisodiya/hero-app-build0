@@ -14,7 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future postCreds(String name, String superpower) async {
     var response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/post-hero/'),
+        Uri.parse('https://heroapp27.herokuapp.com/post-hero/'),
         headers: <String, String>{'Content-Type': 'application/json'},
         body: jsonEncode(
             <String, String>{'name': name, 'superpower': superpower}));
