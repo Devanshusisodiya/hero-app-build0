@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   getList() async {
     var response =
-        await http.get(Uri.parse('https://heroapp27.herokuapp.com/get-heros/'));
+        await http.get(Uri.parse('https://nodeapp26.herokuapp.com/api'));
     var decode = jsonDecode(response.body);
 
     setState(() {

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,13 +16,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future postCreds(String name, String superpower) async {
     var response = await http.post(
-        Uri.parse('https://heroapp27.herokuapp.com/post-hero/'),
+        Uri.parse('https://nodeapp26.herokuapp.com/api'),
         headers: <String, String>{'Content-Type': 'application/json'},
         body: jsonEncode(
             <String, String>{'name': name, 'superpower': superpower}));
     if (response.statusCode == 200) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
+    } else if (response.statusCode == 403) {
+      showAlertDialog(context, _name, _superpower);
     } else {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
@@ -76,4 +80,29 @@ class _LoginScreenState extends State<LoginScreen> {
       ])),
     );
   }
+}
+
+showAlertDialog(BuildContext context, TextEditingController nameController,
+    TextEditingController powerController) {
+  Widget okButton = TextButton(
+      onPressed: () {
+        nameController.clear();
+        powerController.clear();
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+      child: Text("OK"));
+
+  AlertDialog alert = AlertDialog(
+    title: Text("Input Error"),
+    content: Text("This Hero is already present.\nPlease add another"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      });
 }
